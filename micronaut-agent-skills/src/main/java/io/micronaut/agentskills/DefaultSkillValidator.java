@@ -76,7 +76,7 @@ public class DefaultSkillValidator implements SkillValidator {
             .map(DefaultSkillValidator::describe)
             .sorted()
             .forEach(errors::add);
-        if (directoryName != null) {
+        if (directoryName != null && skill.frontmatter() != null && skill.frontmatter().name() != null) {
             String name = skill.frontmatter().name();
             String normalizedName = Normalizer.normalize(name.strip(), Normalizer.Form.NFKC);
             String normalizedDirectoryName = Normalizer.normalize(directoryName, Normalizer.Form.NFKC);
