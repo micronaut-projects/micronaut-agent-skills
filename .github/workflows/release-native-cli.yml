@@ -1,0 +1,91 @@
+# Builds native executables of the micronaut-agent-skills-cli module with GraalVM Native Image
+# for Linux (amd64), macOS (arm64) and Windows (amd64) and attaches them to the GitHub release.
+#
+# This workflow is owned by this repository and is not synced from the project template.
+name: Release Native CLI
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing release tag to attach the native executables to (for example v1.0.0)'
+        required: true
+        type: string
+permissions:
+  contents: read
+env:
+  MODULE: micronaut-agent-skills-cli
+  RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
+jobs:
+  native:
+    name: ${{ matrix.label }}
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write # To add assets to the release.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            label: linux-amd64
+            extension: ''
+          - os: macos-latest
+            label: macos-arm64
+            extension: ''
+          - os: windows-latest
+            label: windows-amd64
+            extension: '.exe'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+      - uses: gradle/actions/wrapper-validation@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6
+      - name: Set up GraalVM
+        uses: graalvm/setup-graalvm@27b360dbb857524eaf0b4c4cef364d38e5b4f173 # v1.6.7
+        with:
+          distribution: 'graalvm'
+          java-version: '25'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6
+      - name: Build native executable
+        shell: bash
+        env:
+          DEVELOCITY_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          DEVELOCITY_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          DEVELOCITY_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+        run: ./gradlew ":${MODULE}:nativeCompile" --no-daemon
+      - name: Package executable
+        id: package
+        shell: bash
+        run: |
+          version="${RELEASE_TAG#v}"
+          asset="${MODULE}-${version}-${{ matrix.label }}${{ matrix.extension }}"
+          mkdir -p dist
+          cp "${MODULE}/build/native/nativeCompile/${MODULE}${{ matrix.extension }}" "dist/${asset}"
+          cd dist
+          chmod +x "${asset}"
+          # Smoke test: the executable must start and print its usage.
+          "./${asset}" --help
+          if command -v sha256sum > /dev/null; then
+            sha256sum "${asset}" > "${asset}.sha256"
+          else
+            shasum -a 256 "${asset}" > "${asset}.sha256"
+          fi
+          cat "${asset}.sha256"
+          echo "asset=${asset}" >> "$GITHUB_OUTPUT"
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ${{ steps.package.outputs.asset }}
+          path: dist/*
+          retention-days: 5
+      - name: Attach executable to release
+        uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v3.0.2
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          files: |
+            dist/${{ steps.package.outputs.asset }}
+            dist/${{ steps.package.outputs.asset }}.sha256

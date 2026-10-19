@@ -1,0 +1,33 @@
+The `micronaut-agent-skills-cli` module provides a command line tool that validates every skill found in a directory. Each direct sub-directory is treated as a skill and checked with api:agentskills.SkillValidator[].
+
+Every https://github.com/micronaut-projects/micronaut-agent-skills/releases[GitHub release] ships native executables built with GraalVM Native Image for Linux (amd64), macOS (arm64) and Windows (amd64), each with a `.sha256` checksum file. Download the one for your platform and run it directly:
+
+[source,bash]
+----
+./micronaut-agent-skills-cli-1.0.0-macos-arm64 /path/to/skills
+----
+
+Run it from the repository with Gradle, passing the directory that contains the skills:
+
+[source,bash]
+----
+./gradlew :micronaut-agent-skills-cli:run --args="/path/to/skills"
+----
+
+Or build the executable jar with `./gradlew :micronaut-agent-skills-cli:shadowJar` and run it directly:
+
+[source,bash]
+----
+java -jar micronaut-agent-skills-cli/build/libs/micronaut-agent-skills-cli-0.1-all.jar /path/to/skills
+----
+
+Invalid skills are listed with their errors, followed by a summary line:
+
+[source]
+----
+gradle: invalid
+  - Unexpected fields in frontmatter: mcp. Only [allowed-tools, compatibility, description, license, metadata, name] are allowed.
+7 skills checked, 6 valid, 1 invalid
+----
+
+Pass `-v` or `--verbose` to also list the valid skills. The exit code is `0` when every skill is valid, `1` when at least one skill is invalid and `2` when the given path is not a readable directory.

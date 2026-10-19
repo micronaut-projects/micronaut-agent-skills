@@ -14,7 +14,7 @@ This repository is the Micronaut Agent Skills module (`io.micronaut.agentskills`
 ## Synced Files
 
 - Several files (workflows, `MAINTAINING.md`, `SECURITY.md`, `LICENSE`, `config/`, Gradle wrapper, `.agents/skills/`) are overwritten by the template's files-sync workflow. Repo-specific changes to them do not survive the next sync unless a `.lock` file sits next to them.
-- `CONTRIBUTING.md` and `README.md` are owned by this repository.
+- `CONTRIBUTING.md`, `README.md` and `.github/workflows/release-native-cli.yml` are owned by this repository. The latter builds GraalVM native executables of `micronaut-agent-skills-cli` for Linux, macOS (arm64) and Windows when a GitHub release is published and attaches them to the release; it can also be run manually against an existing tag.
 
 ## Contributing Guidelines
 
