@@ -89,8 +89,7 @@ public class MicronautAgentSkillsCliCommand implements Callable<Integer> {
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
-        Integer exitCode = PicocliRunner.call(MicronautAgentSkillsCliCommand.class, args);
-        System.exit(exitCode == null ? EXIT_USAGE : exitCode);
+        System.exit(PicocliRunner.execute(MicronautAgentSkillsCliCommand.class, args));
     }
 
     @Override
