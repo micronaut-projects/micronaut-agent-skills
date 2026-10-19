@@ -1,1 +1,5 @@
-TODO
+To use the module, add the following dependency to your project:
+
+dependency:micronaut-agent-skills[groupId="io.micronaut.agentskills"]
+
+The dependency brings the Micronaut Serialization and Micronaut Validation APIs needed to use the records. It also contributes the beans `SkillReader` and `SkillValidator` described in the following sections.

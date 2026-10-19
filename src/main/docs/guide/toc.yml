@@ -2,5 +2,9 @@ introduction:
   title: Introduction
 quickStart:
   title: Quick Start
+model:
+  title: SKILL.md Model
+reading:
+  title: Reading and Validating Skills
 repository: Repository
 releaseHistory: Release History

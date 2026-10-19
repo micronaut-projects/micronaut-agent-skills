@@ -1,0 +1,43 @@
+=== Reading a skill
+
+Inject api:agentskills.SkillReader[] to parse a skill directory or the raw contents of a `SKILL.md` file:
+
+[source,java]
+----
+@Inject
+SkillReader skillReader;
+
+Skill skill = skillReader.read(Path.of("skills/pdf-processing"));
+String name = skill.frontmatter().name();
+String instructions = skill.body();
+----
+
+The reader accepts `SKILL.md` and, as a fallback, `skill.md`. Values inside `metadata` are coerced to strings, so `version: 1.0` is read as `"1.0"`. A api:agentskills.SkillParseException[] is thrown when:
+
+* the content does not start with `---`,
+* the frontmatter is not closed with `---`,
+* the frontmatter is not valid YAML or is not a mapping,
+* the frontmatter contains keys other than the ones defined by the specification,
+* `name` or `description` are missing.
+
+=== Validating a skill
+
+Inject api:agentskills.SkillValidator[] to check a skill directory. The result is a list of messages and an empty list means the skill is valid:
+
+[source,java]
+----
+@Inject
+SkillValidator skillValidator;
+
+List<String> errors = skillValidator.validate(Path.of("skills/pdf-processing"));
+----
+
+The validator reports, in this order of precedence:
+
+* `Path does not exist: ...` or `Not a directory: ...`
+* `Missing required file: SKILL.md`
+* parse errors from the reader, such as `Unexpected fields in frontmatter: ...`
+* constraint violations, formatted as `frontmatter.name: must match "..."`
+* `Directory name 'x' must match skill name 'y'`
+
+Use `validate(Skill, String)` to validate an already parsed skill, passing the directory name or `null` to skip the directory name check.

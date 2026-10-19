@@ -12,10 +12,13 @@ plugins {
 rootProject.name = "micronaut-agent-skills-parent"
 
 include("micronaut-agent-skills")
+include("micronaut-agent-skills-cli")
 include("micronaut-agent-skills-bom")
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 micronautBuild {
     importMicronautCatalog()
+    importMicronautCatalog("micronaut-serde")
+    importMicronautCatalog("micronaut-validation")
 }
