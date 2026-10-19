@@ -88,7 +88,7 @@ public class DefaultSkillReader implements SkillReader {
             throw new SkillParseException(SkillFiles.SKILL_FILE_NAME + " must start with YAML frontmatter ("
                 + SkillFiles.FRONTMATTER_DELIMITER + ")");
         }
-        String[] parts = content.split(SkillFiles.FRONTMATTER_DELIMITER, 3);
+        String[] parts = content.split("(?m)^" + SkillFiles.FRONTMATTER_DELIMITER + "[ \\t]*\\r?$", 3);
         if (parts.length < 3) {
             throw new SkillParseException(SkillFiles.SKILL_FILE_NAME + " frontmatter not properly closed with "
                 + SkillFiles.FRONTMATTER_DELIMITER);
