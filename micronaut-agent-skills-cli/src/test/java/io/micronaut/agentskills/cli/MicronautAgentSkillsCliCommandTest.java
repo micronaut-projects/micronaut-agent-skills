@@ -109,6 +109,22 @@ class MicronautAgentSkillsCliCommandTest {
     }
 
     @Test
+    void unreadableSkillDoesNotPreventCheckingLaterSkills(@TempDir Path skills) throws IOException {
+        Path malformedSkill = Files.createDirectory(skills.resolve("aaa-malformed"));
+        Files.write(malformedSkill.resolve("SKILL.md"), new byte[]{(byte) 0xC3, 0x28});
+        writeSkill(skills, "pdf-processing", VALID_SKILL);
+
+        int exitCode = run("--verbose", skills.toString());
+
+        assertEquals(MicronautAgentSkillsCliCommand.EXIT_INVALID, exitCode);
+        String output = output();
+        assertTrue(output.contains("aaa-malformed: invalid"));
+        assertTrue(output.contains("Could not read "));
+        assertTrue(output.contains("pdf-processing: valid"));
+        assertTrue(output.contains("2 skills checked, 1 valid, 1 invalid"));
+    }
+
+    @Test
     void directoryWithoutSkillsIsValid(@TempDir Path skills) {
         int exitCode = run(skills.toString());
 

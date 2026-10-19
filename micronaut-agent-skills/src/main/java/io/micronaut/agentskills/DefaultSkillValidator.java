@@ -20,6 +20,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.jspecify.annotations.Nullable;
 
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.Normalizer;
@@ -64,6 +65,9 @@ public class DefaultSkillValidator implements SkillValidator {
             skill = skillReader.read(skillDirectory);
         } catch (SkillParseException e) {
             return e.getErrors();
+        } catch (UncheckedIOException e) {
+            String message = e.getMessage();
+            return List.of(message == null ? "Could not read skill file" : message);
         }
         Path fileName = skillDirectory.toAbsolutePath().normalize().getFileName();
         return validate(skill, fileName == null ? null : fileName.toString());
