@@ -1,0 +1,44 @@
+=== Frontmatter
+
+api:agentskills.SkillFrontmatter[] is a Java record mapping the YAML frontmatter of a `SKILL.md` file. Each component carries the constraints defined by the specification as Jakarta Validation annotations:
+
+[cols="1,1,3"]
+|===
+|YAML key |Record component |Rule
+
+|`name`
+|`name()`
+|Required. 1 to 64 characters, lowercase letters, digits and hyphens. No leading, trailing or consecutive hyphens.
+
+|`description`
+|`description()`
+|Required. 1 to 1024 characters.
+
+|`license`
+|`license()`
+|Optional free text.
+
+|`compatibility`
+|`compatibility()`
+|Optional. 1 to 500 characters when present.
+
+|`metadata`
+|`metadata()`
+|Optional map of string keys to string values.
+
+|`allowed-tools`
+|`allowedTools()`
+|Optional, experimental. Space-separated string of pre-approved tools.
+|===
+
+The record is annotated with `@Serdeable` using the kebab-case naming strategy, so `allowedTools()` is serialized as `allowed-tools`. With Micronaut Serialization's default `NON_EMPTY` inclusion, optional components that are `null` or empty are omitted, matching the output of the reference implementation.
+
+The record does not enforce two rules that depend on context: the rejection of unknown frontmatter keys and the requirement that the skill name matches its directory name. Both are enforced by the reader and the validator.
+
+=== Skill
+
+api:agentskills.Skill[] pairs a `SkillFrontmatter` with the Markdown body that follows the frontmatter. Validation cascades into the frontmatter through `@Valid`.
+
+=== Layout constants
+
+api:agentskills.SkillFiles[] exposes the file and directory names of the skill layout: `SKILL.md`, `scripts/`, `references/`, `assets/` and the `---` frontmatter delimiter.

@@ -1,19 +1,19 @@
 <!-- Checklist: https://github.com/micronaut-projects/micronaut-core/wiki/New-Module-Checklist -->
 
-# Micronaut agent-skills
+# Micronaut Agent Skills
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.micronaut.agent-skills/micronaut-project-template.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.micronaut.project-template%22%20AND%20a:%22micronaut-project-template%22)
-[![Build Status](https://github.com/micronaut-projects/micronaut-agent-skills/workflows/Java%20CI/badge.svg)](https://github.com/micronaut-projects/micronaut-project-template/actions)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=micronaut-projects_micronaut-template&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=micronaut-projects_micronaut-template)
+[![Maven Central](https://img.shields.io/maven-central/v/io.micronaut.agentskills/micronaut-agent-skills.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.micronaut.agentskills%22%20AND%20a:%22micronaut-agent-skills%22)
+[![Build Status](https://github.com/micronaut-projects/micronaut-agent-skills/workflows/Java%20CI/badge.svg)](https://github.com/micronaut-projects/micronaut-agent-skills/actions)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=micronaut-projects_micronaut-agent-skills&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=micronaut-projects_micronaut-agent-skills)
 [![Revved up by Develocity](https://img.shields.io/badge/Revved%20up%20by-Develocity-06A0CE?logo=Gradle&labelColor=02303A)](https://ge.micronaut.io/scans)
 
-Micronaut agent-skills
+Micronaut Agent Skills
 
 ## Documentation
 
-See the [Documentation](https://micronaut-projects.github.io/micronaut-agent-skills/latest/guide/) for more information.
+See the [Documentation](https://micronaut-projects.github.io.micronaut.agentskills/latest/guide/) for more information.
 
-See the [Snapshot Documentation](https://micronaut-projects.github.io/micronaut-agent-skills/snapshot/guide/) for the current development docs.
+See the [Snapshot Documentation](https://micronaut-projects.github.io.micronaut.agentskills/snapshot/guide/) for the current development docs.
 
 <!-- ## Examples
 

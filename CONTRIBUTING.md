@@ -7,15 +7,13 @@ Sign the [Contributor License Agreement (CLA)](https://cla-assistant.io/micronau
 If you are interested in contributing to Micronaut and are looking for issues to work on, take a look at the issues tagged with [help wanted](https://github.com/micronaut-projects/micronaut-agent-skills/issues?q=is%3Aopen+is%3Aissue+label%3A%22status%3A+help+wanted%22).
 
 ## JDK Setup
-
-Micronaut agent-skills currently requires JDK 25.
+Micronaut Agent Skills currently requires JDK 25.
 
 ## IDE Setup
 
-Micronaut agent-skills can be imported into IntelliJ IDEA by opening the `build.gradle` file.
+Micronaut Agent Skills can be imported into IntelliJ IDEA by opening the `build.gradle.kts` file.
 
 ## Docker Setup
-
 Micronaut agent-skills tests currently require Docker to be installed.
 
 ## Running Tests
@@ -77,9 +75,9 @@ When you merge a PR that will go into the next module's minor release:
 
 We want to keep the code clean, following good practices about organization, Javadoc, and style as much as possible.
 
-Micronaut agent-skills uses [Checkstyle](https://checkstyle.sourceforge.io/) to make sure that the code follows those standards. The configuration is defined in `config/checkstyle/checkstyle.xml`. To execute Checkstyle, run:
+Micronaut Agent Skills uses [Checkstyle](https://checkstyle.sourceforge.io/) to make sure that the code follows those standards. The configuration is defined in `config/checkstyle/checkstyle.xml`. To execute Checkstyle, run:
 
-```
+``
 ./gradlew <module-name>:checkstyleMain
 ```
 

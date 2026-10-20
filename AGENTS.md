@@ -1,21 +1,20 @@
 # Repository Guidance
 
-This repository is the Micronaut template for generated module repositories. Keep root guidance short and update it when the template workflow changes.
+This repository is the Micronaut Agent Skills module (`io.micronaut.agentskills`). It was generated from
+`micronaut-projects/micronaut-project-template`. Keep root guidance short and update it when the module layout changes.
 
 ## Repository Shape
 
-- `project-template/` is the generated module placeholder. Changes here should make sense after `template-cleanup.yml` renames it to `micronaut-<slug>/`.
-- `project-template-bom/` is the generated BOM placeholder. Keep dependency-management changes separate from module implementation changes when possible.
-- `buildSrc/src/main/groovy/io.micronaut.build.internal.project-template-*.gradle` contains template convention plugins that are also renamed by the cleanup workflow.
-- `.agents/skills/` is shared agent guidance. Skill changes are validated by `.github/workflows/skills-validation.yml`.
+- `micronaut-agent-skills/` publishes `io.micronaut.agentskills:micronaut-agent-skills`.
+- `micronaut-agent-skills-bom/` publishes `io.micronaut.agentskills:micronaut-agent-skills-bom`. Keep dependency-management changes separate from module implementation changes when possible.
+- `buildSrc/src/main/kotlin/io.micronaut.build.internal.agent-skills-*.gradle.kts` contains the Kotlin DSL precompiled convention plugins applied by the modules. All build scripts use the Gradle Kotlin DSL (`*.gradle.kts`).
+- `gradle/libs.versions.toml` is the version catalog. Only `managed-` libraries and `boms-` entries appear in the published BOM.
+- `.agents/skills/` is shared agent guidance synced from the template repository. Do not edit synced skills here; change them in the template.
 
-## Template And Sync Rules
+## Synced Files
 
-- Treat `.github/workflows/files-sync.yml` as the source of truth for files copied from this template to other Micronaut repositories.
-- Before editing synced files, check whether the file is copied by `files-sync.yml`, excluded by `.github/workflows/.rsync-filter`, or rewritten by `.github/workflows/template-cleanup.yml`.
-- `CONTRIBUTING.md` is rewritten by `template-cleanup.yml` when a repository is created from the template, but it is not copied by the recurring files-sync workflow. Existing downstream copies need repo-specific PRs.
-- Do not add project-specific assumptions to files that will be synced broadly unless the cleanup workflow rewrites them correctly for generated repositories.
-- When changing placeholder names, update every cleanup substitution and related file move in `.github/workflows/template-cleanup.yml`.
+- Several files (workflows, `MAINTAINING.md`, `SECURITY.md`, `LICENSE`, `config/`, Gradle wrapper, `.agents/skills/`) are overwritten by the template's files-sync workflow. Repo-specific changes to them do not survive the next sync unless a `.lock` file sits next to them.
+- `CONTRIBUTING.md`, `README.md` and `.github/workflows/release-native-cli.yml` are owned by this repository. The latter builds GraalVM native executables of `micronaut-agent-skills-cli` for Linux, macOS (arm64) and Windows when a GitHub release is published and attaches them to the release; it can also be run manually against an existing tag.
 
 ## Contributing Guidelines
 
@@ -27,7 +26,7 @@ This repository is the Micronaut template for generated module repositories. Kee
 
 - User guide sources live in `src/main/docs/guide`, with navigation in `src/main/docs/guide/toc.yml`.
 - Build guide output with `./gradlew publishGuide` or `./gradlew pG`; build guide plus Javadocs with `./gradlew docs`.
-- There are currently no `doc-examples/` snippets or shared docs images in this template. Prefer runnable snippets if examples are introduced.
+- There are currently no `doc-examples/` snippets. Prefer runnable snippets if examples are introduced.
 - Release-note behavior is maintained through `.github/release.yml`, `.github/workflows/release.yml`, and the release process documented in `MAINTAINING.md`.
 
 ## Verification
@@ -35,4 +34,3 @@ This repository is the Micronaut template for generated module repositories. Kee
 - Use `./gradlew check` for general validation.
 - Use `./gradlew publishGuide` after guide or `toc.yml` changes.
 - Use `./gradlew docs` when API docs or release documentation output matters.
-- For `.agents/skills/**` changes, run the same validation as `skills-validation.yml` for the touched skill directories.

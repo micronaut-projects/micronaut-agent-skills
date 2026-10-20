@@ -2,5 +2,11 @@ introduction:
   title: Introduction
 quickStart:
   title: Quick Start
+model:
+  title: SKILL.md Model
+reading:
+  title: Reading and Validating Skills
+cli:
+  title: Command Line Tool
 repository: Repository
 releaseHistory: Release History

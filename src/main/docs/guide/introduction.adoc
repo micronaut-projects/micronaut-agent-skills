@@ -1,1 +1,7 @@
-TODO
+Micronaut Agent Skills provides a Java model of the https://agentskills.io/specification[Agent Skills specification], the format used to package instructions, scripts and resources that AI agents load on demand.
+
+The module offers:
+
+* Java records for the `SKILL.md` frontmatter and body, annotated for Micronaut bean introspection, https://micronaut-projects.github.io/micronaut-serialization/latest/guide/[Micronaut Serialization] and https://micronaut-projects.github.io/micronaut-validation/latest/guide/[Micronaut Validation].
+* A reader that parses `SKILL.md` files, including the YAML frontmatter.
+* A validator that reports the same problems as the `skills-ref validate` reference tool.
